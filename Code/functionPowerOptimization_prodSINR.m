@@ -29,7 +29,7 @@ function SE = functionPowerOptimization_prodSINR(signal,interference,Pmax,prelog
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.1 (Last edited: 2018-06-08)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -50,7 +50,7 @@ cvx_quiet(true); % This suppresses screen output from the solver
 variable rho(K,L);
 variable c(K,L);
 
-minimize prod(prod(c))
+maximize prod(prod(c))
 
 subject to
 

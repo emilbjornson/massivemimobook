@@ -1,8 +1,8 @@
 %This Matlab script can be used to reproduce Figure 7.2 in the monograph:
 %
-%Emil Bjornson, Jakob Hoydis and Luca Sanguinetti (2017), 
-%"Massive MIMO Networks: Spectral, Energy, and Hardware Efficiency", 
-%Foundations and Trends in Signal Processing: Vol. 11, No. 3-4, 
+%Emil Bjornson, Jakob Hoydis and Luca Sanguinetti (2017),
+%"Massive MIMO Networks: Spectral, Energy, and Hardware Efficiency",
+%Foundations and Trends in Signal Processing: Vol. 11, No. 3-4,
 %pp. 154-655. DOI: 10.1561/2000000093.
 %
 %For further information, visit: https://www.massivemimobook.com
@@ -108,43 +108,33 @@ for n = 1:nbrOfSetups
     channelGainOverNoise = channelGaindB - noiseVariancedBm;
     
     
-    %Go through all number of antennas
-    for m = 1:length(M)
-        
-        
-        %Generate channel realizations with estimates and estimation
-        %error correlation matrices
-        [Hhat,C,tau_p,Rscaled,H] = functionChannelEstimates(R,channelGainOverNoise,nbrOfRealizations,M,K,L,p,f);
-        
-        %Compute the signal and interference terms of the DL SEs using the
-        %hardening bound in Theorem 4.6
-        [signal_MR,interf_MR,signal_RZF,interf_RZF,signal_MMMSE,interf_MMMSE,prelogFactor] = functionComputeSINR_DL(H,Hhat,C,tau_c,tau_p,nbrOfRealizations,M,K,L,p);
-        
-        %Delete large matrices
-        clear Hhat C Rscaled;
-        
-        %Compute the SEs with equal power allocation
-        SE_MR_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_MR,interf_MR,prelogFactor);
-        SE_RZF_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_RZF,interf_RZF,prelogFactor);
-        SE_MMMSE_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_MMMSE,interf_MMMSE,prelogFactor);
-        
-        %Compute the SEs with max-min fairness power allocation
-        disp('Solve max-min fairness problem'); %Output simulation progress
-        SE_MR_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_MR,interf_MR,Pmax,prelogFactor);
-        SE_RZF_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_RZF,interf_RZF,Pmax,prelogFactor);
-        SE_MMMSE_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_MMMSE,interf_MMMSE,Pmax,prelogFactor);
-        
-        %Compute the SEs with max-min fairness power allocation
-        disp('Solve max product SINR problem'); %Output simulation progress
-        SE_MR_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_MR,interf_MR,Pmax,prelogFactor);
-        SE_RZF_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_RZF,interf_RZF,Pmax,prelogFactor);
-        SE_MMMSE_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_MMMSE,interf_MMMSE,Pmax,prelogFactor);
-
-        
-    end
+    %Generate channel realizations with estimates and estimation
+    %error correlation matrices
+    [Hhat,C,tau_p,~,H] = functionChannelEstimates(R,channelGainOverNoise,nbrOfRealizations,M,K,L,p,f);
+    
+    %Compute the signal and interference terms of the DL SEs using the
+    %hardening bound in Theorem 4.6
+    [signal_MR,interf_MR,signal_RZF,interf_RZF,signal_MMMSE,interf_MMMSE,prelogFactor] = functionComputeSINR_DL(H,Hhat,C,tau_c,tau_p,nbrOfRealizations,M,K,L,p);
     
     %Delete large matrices
-    clear R;
+    clear Hhat C H R;
+    
+    %Compute the SEs with equal power allocation
+    SE_MR_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_MR,interf_MR,prelogFactor);
+    SE_RZF_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_RZF,interf_RZF,prelogFactor);
+    SE_MMMSE_equal(:,:,n) = functionComputeSE_DL_poweralloc(rhoEqual,signal_MMMSE,interf_MMMSE,prelogFactor);
+    
+    %Compute the SEs with max-min fairness power allocation
+    disp('Solve max-min fairness problem'); %Output simulation progress
+    SE_MR_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_MR,interf_MR,Pmax,prelogFactor);
+    SE_RZF_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_RZF,interf_RZF,Pmax,prelogFactor);
+    SE_MMMSE_maxmin(:,:,n) = functionPowerOptimization_maxmin(signal_MMMSE,interf_MMMSE,Pmax,prelogFactor);
+    
+    %Compute the SEs with max-min fairness power allocation
+    disp('Solve max product SINR problem'); %Output simulation progress
+    SE_MR_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_MR,interf_MR,Pmax,prelogFactor);
+    SE_RZF_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_RZF,interf_RZF,Pmax,prelogFactor);
+    SE_MMMSE_maxprod(:,:,n) = functionPowerOptimization_prodSINR(signal_MMMSE,interf_MMMSE,Pmax,prelogFactor);
     
 end
 
