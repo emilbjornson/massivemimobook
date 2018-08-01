@@ -102,15 +102,15 @@ M_H = M/M_V; %Number of antennas on each horizontal circle
 antennaSpacing = 1/2; %Half wavelength distance
 
 if polarizations == 1
-    PolarizationIndicator = 1; %Vertical polarization
+    PolarizationIndicator = 1; %Single polarization antennas switching between vertical and horizontal
 elseif polarizations == 2
-    PolarizationIndicator = 3; %Dual +/-45deg polarization
+    PolarizationIndicator = 3; %Dual +/-45deg polarized antennas
 end
 
 %Compute height of array
 arrayHeight = (M_V-1)*antennaSpacing*3e8/center_frequency;
 
-if (PolarizationIndicator==1) %Single polarization
+if (PolarizationIndicator==1) %Single polarized elements
     
     circumference = M_H*antennaSpacing*3e8/center_frequency;
     radius = circumference/(2*pi);
@@ -131,11 +131,15 @@ if (PolarizationIndicator==1) %Single polarization
                 lay.tx_array(b).element_position(2, indices) = radius*sin(angle);
                 lay.tx_array(b).element_position(3, indices) = (i-1)*antennaSpacing*3e8/center_frequency - arrayHeight/2;
                 lay.tx_array(b).rotate_pattern(rad2deg(angle), 'z', indices, 0);
+                
+                if mod(indices,2) == 0 %Switch between vertical and horizontal polarization
+                    lay.tx_array(b).rotate_pattern(90, 'y', indices, 2);
+                end
             end
         end
     end
     
-elseif (PolarizationIndicator==3) %Dual polarization
+elseif (PolarizationIndicator==3) %Dual polarized elements
     
     circumference = M_H/2*antennaSpacing*3e8/center_frequency;
     radius = circumference/(2*pi);
@@ -289,7 +293,7 @@ for j = 1:L
             
             userind = k+(j-1)*Kdrop+(minr-1)*Kdrop*L;
             
-            [ h_channel, h_cb ] = lay.get_channels_seg(l, userind);
+            [ h_channel, ~ ] = lay.get_channels_seg(l, userind);
             Hextract = h_channel.fr(B, nbrOfSubcarriers);
             
             Huser(:,:,1,1,l) = reshape(Hextract,[M nbrOfSubcarriers])/noiseStd;

@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2018-08-01)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -321,24 +321,9 @@ for config = [3 2 1]
     end
     
     
+
+    %Plot Figure 7.41a
     figure(1);
-    hold on; box on;
-    
-    plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),MR,'LineWidth',1);
-    
-    if config == 3
-        plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),'k--','LineWidth',1);
-        plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),'k-.','LineWidth',1);
-        legend('M=200, 20 x 5 x 2','M=100, 20 x 5 x 1','M=100, 10 x 5 x 2','Location','SouthEast');
-        xlabel('DL throughput per UE [Mbit/s]');
-        ylabel('CDF');
-        xlim([0 100]);
-    end
-    
-    plot((B_effective/1e6)*SE_RZF_DL_maxmin_active,linspace(0,1,Ktotal),RZF,'LineWidth',1);
-    
-    
-    figure(2);
     hold on; box on;
     
     plot((B_effective/1e6)*SE_MR_DL_prodSINR_active,linspace(0,1,Ktotal),MR,'LineWidth',1);
@@ -355,6 +340,25 @@ for config = [3 2 1]
     plot((B_effective/1e6)*SE_RZF_DL_prodSINR_active,linspace(0,1,Ktotal),RZF,'LineWidth',1);
     
     
+    %Plot Figure 7.41b
+    figure(2);
+    hold on; box on;
+    
+    plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),MR,'LineWidth',1);
+    
+    if config == 3
+        plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),'k--','LineWidth',1);
+        plot((B_effective/1e6)*SE_MR_DL_maxmin_active,linspace(0,1,Ktotal),'k-.','LineWidth',1);
+        legend('M=200, 20 x 5 x 2','M=100, 20 x 5 x 1','M=100, 10 x 5 x 2','Location','SouthEast');
+        xlabel('DL throughput per UE [Mbit/s]');
+        ylabel('CDF');
+        xlim([0 100]);
+    end
+    
+    plot((B_effective/1e6)*SE_RZF_DL_maxmin_active,linspace(0,1,Ktotal),RZF,'LineWidth',1);
+    
+    
+    %Plot Figure 7.42a
     figure(3);
     hold on; box on;
     
@@ -372,6 +376,7 @@ for config = [3 2 1]
     plot((B_effective/1e6)*SE_RZF_UL_20control_active,linspace(0,1,Ktotal),RZF,'LineWidth',1);
     
     
+    %Plot Figure 7.42b
     figure(4);
     hold on; box on;
     
