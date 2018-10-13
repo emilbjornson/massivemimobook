@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.1 (Last edited: 2018-10-10)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -20,7 +20,7 @@ clear;
 
 
 %% Define parameters
-S = [1, 2, 4, 8, 16, 32, 64, 128, 256]; %Number of subarrays
+S = [1, 16, 256]; %Number of subarrays
 M = 256./S; %Number of antennas per subarray
 d0 = 10; %Guard distance to the closest subarray
 W = 350; %Cell radii
@@ -43,7 +43,7 @@ for s = 1:numel(S)
     %Go through all drops of subarrays
     for it1 = 1:numberOfSetups
         
-        d = sort(sqrt(rand(S(s),1)*(W-sqrt(d0)) + sqrt(d0))); %The squared distances of randomly distributed point on a circle are uniformly distributed
+        d = sort(sqrt(rand(S(s),1)*(W^2-d0^2) + d0^2)); %The squared distances of uniformly distributed points between two circles are uniformly distributed
         pldB = pathlossdB(d); %Compute pathloss without shadow fading
         pl = addShadowing(pldB); %Add random shadow fading
         
@@ -59,9 +59,10 @@ end
 figure;
 hold on; box on;
 plot(sort(10*log10(betaValues(1,:))),linspace(0,1,numberOfSetups), 'LineStyle', '-', 'Color', 'k', 'LineWidth', 1);
-plot(sort(10*log10(betaValues(5,:))),linspace(0,1,numberOfSetups), 'LineStyle', '--', 'Color', 'r',  'LineWidth', 1);
-plot(sort(10*log10(betaValues(9,:))),linspace(0,1,numberOfSetups), 'LineStyle', '-.', 'Color', 'b',  'LineWidth', 1);
+plot(sort(10*log10(betaValues(2,:))),linspace(0,1,numberOfSetups), 'LineStyle', '--', 'Color', 'r',  'LineWidth', 1);
+plot(sort(10*log10(betaValues(3,:))),linspace(0,1,numberOfSetups), 'LineStyle', '-.', 'Color', 'b',  'LineWidth', 1);
 
 xlabel('Average channel gain [dB]')
 ylabel('CDF')
-legend({['S=', num2str(S(1))],['S=', num2str(S(5))],['S=', num2str(S(9))]}, 'Location', 'NorthWest')
+legend({['S=', num2str(S(1))],['S=', num2str(S(2))],['S=', num2str(S(3))]}, 'Location', 'NorthWest')
+xlim([-160 -60]);

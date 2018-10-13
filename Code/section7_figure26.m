@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.1 (Last edited: 2018-10-10)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -53,7 +53,7 @@ for w = 1:numel(W)
         %Go through all drops of subarrays
         for it1 = 1:numberOfSetups
             
-            d = sqrt(rand(S(s),1)*(W(w)-sqrt(d0)) + sqrt(d0)); %The squared distances of randomly distributed point on a circle are uniformly distributed
+            d = sqrt(rand(S(s),1)*(W(w)^2-d0^2) + d0^2); %The squared distances of uniformly distributed points between two circles are uniformly distributed
             pldB = pathlossdB(d); %Compute pathloss without shadow fading
             pl = addShadowing(pldB); %Add random shadow fading
             R = kron(diag(pl),eye(M(s)));
