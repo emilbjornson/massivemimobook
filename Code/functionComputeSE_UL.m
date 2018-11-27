@@ -34,7 +34,7 @@ function [SE_MR,SE_RZF,SE_MMMSE,SE_ZF,SE_SMMSE] = functionComputeSE_UL(Hhat,C,R,
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2018-11-21)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -101,7 +101,7 @@ for n = 1:nbrOfRealizations
             V_MMMSE = p*(p*(Hhatallj*Hhatallj')+C_totM(:,:,j)+eyeM)\V_MR;
         end
         
-        if nargout > 3 %Compute ZF combining in (4.10)
+        if nargout > 3 %Compute ZF combining in (4.10), with the small regularization term 1e-12 for numerical stability
             V_ZF = V_MR/(V_MR'*V_MR+1e-12*eyeK);
         end
         
