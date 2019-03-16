@@ -17,7 +17,7 @@ function SE = functionPowerOptimization_maxmin(signal,interference,Pmax,prelogFa
 %
 %OUTPUT:
 %SE = K x L matrix where element (k,j) is the downlink SE of UE k in cell j
-%     using the max product power allocation solution
+%     using the max-min power allocation solution
 %
 %
 %This Matlab function was developed to generate simulation results to:
@@ -29,7 +29,7 @@ function SE = functionPowerOptimization_maxmin(signal,interference,Pmax,prelogFa
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2019-03-16)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -57,8 +57,8 @@ delta = 0.01;
 %Prepare to save the power solution
 rhoBest = zeros(K,L);
 
-%Solve the max-min problem by bisection - iterate until the different
-%between current lower and upper points in interval is smaller than delta
+%Solve the max-min problem by bisection - iterate until the difference
+%between the lower and upper points in the interval is smaller than delta
 while norm(rateUpper - rateLower) > delta
     
     %Compute the midpoint of the line. Note that we are performing the
@@ -66,8 +66,10 @@ while norm(rateUpper - rateLower) > delta
     %1, since we can then specify delta as the SE difference
     rateCandidate = (rateLower+rateUpper)/2; 
     
-    gammaCandidate = 2.^(rateCandidate)-1; %Transform midpoint into SINR requirements
+    %Transform the midpoints into SINR requirements
+    gammaCandidate = 2.^(rateCandidate)-1;
     
+    %Solve the feasibility problem using CVX
     [feasible,rhoSolution] = functionFeasibilityProblem_cvx(signal,interference,Pmax,K,L,gammaCandidate);
     
     
@@ -97,10 +99,10 @@ function [feasible,rhoSolution] = functionFeasibilityProblem_cvx(signal,interfer
 cvx_begin
 cvx_quiet(true); % This suppresses screen output from the solver
 
-variable rho(K,L);  %Variable for N x Kr beamforming matrix
-variable scaling %Scaling parameter for power constraints
+variable rho(K,L);  %Variable for the K x L power allocation matrix
+variable scaling    %Scaling parameter for power constraints
 
-minimize scaling %Minimize the power indirectly by scaling power constraints
+minimize scaling %Minimize the power indirectly by scaling the power constraints
 
 subject to
 
@@ -132,10 +134,10 @@ cvx_end
 if isempty(strfind(cvx_status,'Solved')) %Both the power minimization problem and the feasibility problem are infeasible
     feasible = false;
     rhoSolution = [];
-elseif scaling>1 %Only power minimization problem is feasible
+elseif scaling>1 %Only the power minimization problem is feasible
     feasible = false;
     rhoSolution = rho;
-else %Both power minimization problem and feasibility problem are feasible
+else %Both the power minimization problem and feasibility problem are feasible
     feasible = true;
     rhoSolution = rho;
 end
