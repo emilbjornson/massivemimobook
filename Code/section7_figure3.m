@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2019-03-27)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -150,7 +150,7 @@ plot(sort(sumSE_MR(:,2)),linspace(0,1,K*L*nbrOfSetups),'b-.','LineWidth',1);
 plot(sort(sumSE_MR(:,3)),linspace(0,1,K*L*nbrOfSetups),'r--','LineWidth',1);
 xlabel('SE per UE [bit/s/Hz]');
 ylabel('CDF');
-legend('0 dB','10 dB','20 dB','Location','SouthEast');
+legend('\Delta=0 dB','\Delta=10 dB','\Delta=20 dB','Location','SouthEast');
 xlim([0 8]);
 
 figure;
@@ -161,7 +161,7 @@ plot(sort(sumSE_RZF(:,2)),linspace(0,1,K*L*nbrOfSetups),'b-.','LineWidth',1);
 plot(sort(sumSE_RZF(:,3)),linspace(0,1,K*L*nbrOfSetups),'r--','LineWidth',1);
 xlabel('SE per UE [bit/s/Hz]');
 ylabel('CDF');
-legend('0 dB','10 dB','20 dB','Location','SouthEast');
+legend('\Delta=0 dB','\Delta=10 dB','\Delta=20 dB','Location','SouthEast');
 xlim([0 8]);
 
 figure;
@@ -172,5 +172,5 @@ plot(sort(sumSE_MMMSE(:,2)),linspace(0,1,K*L*nbrOfSetups),'b-.','LineWidth',1);
 plot(sort(sumSE_MMMSE(:,3)),linspace(0,1,K*L*nbrOfSetups),'r--','LineWidth',1);
 xlabel('SE per UE [bit/s/Hz]');
 ylabel('CDF');
-legend('0 dB','10 dB','20 dB','Location','SouthEast');
+legend('\Delta=0 dB','\Delta=10 dB','\Delta=20 dB','Location','SouthEast');
 xlim([0 8]);
