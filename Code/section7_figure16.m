@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2019-04-17)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -60,7 +60,7 @@ for i = 1:size(POS,1)
         M_H = m; %Number of antenna per horizontal row
         M_V = m; %Number of rows
         M = M_H*M_V; %Number of antennas
-        indices = repmat([0:M_H-1]*M_max + 1, [M_V,1]) + repmat([0:M_V-1]', [1,M_H]);
+        indices = repmat((0:M_H-1)*M_max + 1, [M_V,1]) + repmat((0:M_V-1)', [1,M_H]);
         indices = indices(:);
         R{i,m} = R{i,M_max}(indices,indices);
         [U,~,~] = svd(R{i,m});

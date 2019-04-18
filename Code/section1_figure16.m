@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2019-04-11)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -71,10 +71,10 @@ for n = 1:numberOfRealizations
     disp([num2str(n) ' realizations out of ' num2str(numberOfRealizations)]);
     
     %Go through the range of number of UEs
-    for kindex = 1:length(K);
+    for kindex = 1:length(K)
         
         %Go through the range of number of BS antennas
-        for mindex = 1:length(M);
+        for mindex = 1:length(M)
             
             
             %Compute the SE with MR under LoS propagation using (1.43) for
@@ -165,7 +165,7 @@ end
 %Compute the lower bound in (1.44) on the SE under NLoS propagation
 SE_MR_NLoS_lower = zeros(length(K),length(M));
 
-for mindex = 1:length(M);
+for mindex = 1:length(M)
     SE_MR_NLoS_lower(:,mindex) = K .* log2(1 + SNR*(M(mindex)-1)  ./ ( (K-1)*SNR + K*SNR*betabar + 1 ) );
 end
 

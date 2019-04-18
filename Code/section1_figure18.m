@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2019-04-17)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -57,10 +57,10 @@ for n = 1:numberOfRealizations
     disp([num2str(n) ' realizations out of ' num2str(numberOfRealizations)]);
     
     %Go through the range of number of UEs
-    for kindex = 1:length(K);
+    for kindex = 1:length(K)
         
         %Go through the range of antenna-UE ratios
-        for cindex = 1:length(c);
+        for cindex = 1:length(c)
             
             %Compute the number of antennas
             M = K(kindex)*c(cindex);
