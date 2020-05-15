@@ -38,7 +38,7 @@ function [SE_MR,SE_RZF,SE_MMMSE,SE_ZF,SE_SMMSE] = functionComputeSE_DL_hardening
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.01 (Last edited: 2018-11-21)
+%This is version 1.01 (Last edited: 2020-05-15)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -128,11 +128,11 @@ for n = 1:nbrOfRealizations
         V_MR = Hhatallj(:,K*(j-1)+1:K*j);
         
         if nargout > 1 %Compute RZF combining in (4.9)
-            V_RZF = p*V_MR/(p*(V_MR'*V_MR)+eyeK);
+            V_RZF = (p*V_MR)/(p*(V_MR'*V_MR)+eyeK);
         end
         
         if nargout > 2 %Compute M-MMSE combining in (4.7)
-            V_MMMSE = p*(p*(Hhatallj*Hhatallj')+C_totM(:,:,j)+eyeM)\V_MR;
+            V_MMMSE = (p*(Hhatallj*Hhatallj')+C_totM(:,:,j)+eyeM)\(p*V_MR);
         end
         
         if nargout > 3 %Compute ZF combining in (4.10), with the small regularization term 1e-12 for numerical stability
@@ -140,7 +140,7 @@ for n = 1:nbrOfRealizations
         end
         
         if nargout > 4 %Compute S-MMSE combining in (4.8)
-            V_SMMSE = p*(p*(V_MR*V_MR')+CR_totS(:,:,j)+eyeM)\V_MR;
+            V_SMMSE = (p*(V_MR*V_MR')+CR_totS(:,:,j)+eyeM)\(p*V_MR);
         end
         
         

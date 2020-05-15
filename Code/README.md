@@ -4,6 +4,11 @@ Changelog
 This code package will be revised if we find typos and errors. This file keeps track of the changes and the Github version control functionality can be used to identify the exact changes. If you find an error, please contact Emil Bjornson at emil.bjornson@liu.se
 
 
+## Version 1.06, 2020-05-15
+
+Correcting the power scaling in the computations of M-MMSE and S-MMSE, which was inconsistent with the book but had no impact on the simulation results.
+
+
 ## Version 1.05, 2019-04-17
 
 Correcting a few errors in the code comments and adjusting the syntax in a few files to remove Matlab warnings.

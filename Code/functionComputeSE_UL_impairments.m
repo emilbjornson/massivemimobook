@@ -35,7 +35,7 @@ function [SE_MR,SE_RZF,SE_MMMSE] = functionComputeSE_UL_impairments(H,Hhat,C,tau
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2020-05-15)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -89,11 +89,11 @@ for n = 1:nbrOfRealizations
         V_MR = Hhatallj(:,K*(j-1)+1:K*j);
         
         if nargout > 1 %Compute RZF combining in (4.9)
-            V_RZF = p*V_MR/(p*(V_MR'*V_MR)+eyeK);
+            V_RZF = (p*V_MR)/(p*(V_MR'*V_MR)+eyeK);
         end
         
         if nargout > 2 %Compute M-MMSE combining in (4.7)
-            V_MMMSE = p*(p*(Hhatallj*Hhatallj')+C_totM(:,:,j)+eyeM)\V_MR;
+            V_MMMSE = (p*(Hhatallj*Hhatallj')+C_totM(:,:,j)+eyeM)\(p*V_MR);
         end
         
         
