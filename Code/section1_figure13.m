@@ -7,7 +7,7 @@
 %
 %For further information, visit: https://www.massivemimobook.com
 %
-%This is version 1.0 (Last edited: 2017-11-04)
+%This is version 1.01 (Last edited: 2021-07-29)
 %
 %License: This code is licensed under the GPLv2 license. If you in any way
 %use this code for research that results in publications, please cite our
@@ -42,7 +42,7 @@ argument = (2*pi*antennaSpacing*( sin(varphiDesired(:))  - sin(varphiInterfering
 %Go through different number of antennas
 for mindex = 1:length(M)
 
-    %Compute the g-function in (1.28), but implemented slightly differently
+    %Compute the g-function in (1.28), but implemented slightly differently using the identity sin^2(x)= (1-cos(2x))/2
     interferenceGainLoS(:,mindex) = ((1-cos(argument*M(mindex)))./(1-cos(argument)))/M(mindex);
 
 end
